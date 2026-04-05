@@ -5,7 +5,7 @@ import time
 # --- PAGE SETUP ---
 st.set_page_config(page_title="AyurConnect Pro", page_icon="🌿", layout="centered")
 
-# --- UI TRANSLATIONS (Jadoo yahan hai) ---
+# --- UI TRANSLATIONS ---
 translations = {
     "Marathi": {
         "title": "🌿 AyurConnect: हायपर-पर्सनलाइज्ड AI",
@@ -58,7 +58,7 @@ if 'first_load' not in st.session_state:
     splash.empty()
     st.session_state.first_load = True
 
-# --- CUSTOM CSS (Hide Streamlit Logos & Watermarks) ---
+# --- CUSTOM CSS ---
 st.markdown("""
     <style>
     .main { background-color: #f4fbf7; }
@@ -69,21 +69,27 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- API SETUP (Secret Key) ---
+# --- API SETUP ---
 try:
     API_KEY = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+   model = genai.GenerativeModel('gemini-pro')
 except Exception as e:
     st.error("API Key not found in Secrets! Please add it in Streamlit settings.")
 
-# --- APP INTERFACE ---
-lang_choice = st.selectbox("🌐 Bhasha chunein (Language):", ["Marathi", "Hindi", "English"])
-t = translations[lang_choice] # Selected language ka data uthaya
+# --- APP INTERFACE (FIXED LAYOUT) ---
+# Yahan humne ek 'Container' banaya taaki Title hamesha sabse upar rahe
+header_container = st.container()
 
-st.title(t["title"])
-st.write(t["subtitle"])
-st.markdown("---")
+# Uske niche humne Language ka option diya
+lang_choice = st.selectbox("🌐 Bhasha chunein (Language):", ["Marathi", "Hindi", "English"])
+t = translations[lang_choice]
+
+# Ab wapas us upar wale Container mein ja kar Title print kar diya!
+with header_container:
+    st.title(t["title"])
+    st.write(t["subtitle"])
+    st.markdown("---")
 
 st.subheader(t["step1"])
 col1, col2 = st.columns(2)
