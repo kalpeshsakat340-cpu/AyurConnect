@@ -69,13 +69,26 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- API SETUP ---
+# --- API SETUP (SMART AUTO-DETECT) ---
 try:
     API_KEY = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel('gemini-pro')
+    
+    # Hum Google se unke available models ki list mangwayenge!
+    available_models = [m.name.replace('models/', '') for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+    
+    if 'gemini-1.5-flash' in available_models:
+        best_model = 'gemini-1.5-flash'
+    elif 'gemini-1.0-pro' in available_models:
+        best_model = 'gemini-1.0-pro'
+    elif 'gemini-pro' in available_models:
+        best_model = 'gemini-pro'
+    else:
+        best_model = available_models[0] # Jo milega wo use karega
+        
+    model = genai.GenerativeModel(best_model)
 except Exception as e:
-    st.error("API Key not found in Secrets! Please add it in Streamlit settings.")
+    st.error(f"API Error: Please check your API Key in Streamlit Secrets. Error details: {e}")
 
 # --- APP INTERFACE (FIXED LAYOUT) ---
 header_container = st.container()
@@ -116,4 +129,4 @@ if st.button(t["btn_text"]):
                 st.markdown(response.text)
                 st.download_button(label=t["download_btn"], data=response.text, file_name="AyurPlan.txt")
             except Exception as e:
-                st.error(f"Error: {e}")
+                st.error(f"Generation Error: {e}")
