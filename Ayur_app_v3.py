@@ -73,19 +73,16 @@ st.markdown("""
 try:
     API_KEY = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=API_KEY)
-   model = genai.GenerativeModel('gemini-pro')
+    model = genai.GenerativeModel('gemini-pro')
 except Exception as e:
     st.error("API Key not found in Secrets! Please add it in Streamlit settings.")
 
 # --- APP INTERFACE (FIXED LAYOUT) ---
-# Yahan humne ek 'Container' banaya taaki Title hamesha sabse upar rahe
 header_container = st.container()
 
-# Uske niche humne Language ka option diya
 lang_choice = st.selectbox("🌐 Bhasha chunein (Language):", ["Marathi", "Hindi", "English"])
 t = translations[lang_choice]
 
-# Ab wapas us upar wale Container mein ja kar Title print kar diya!
 with header_container:
     st.title(t["title"])
     st.write(t["subtitle"])
