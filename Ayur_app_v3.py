@@ -20,7 +20,12 @@ translations = {
         "step2_tab2": "AI डॉक्टरला प्रश्न विचारा...",
         "clear_btn": "🗑️ चॅट पुसून टाका",
         "chat_tip": "💡 **टीप:** AI सोबत फक्त 'Hi' करण्याऐवजी तुमचा संपूर्ण प्रश्न एकाच वेळी विचारा. (उदा: 'मला २ दिवसांपासून ऍसिडिटी आहे, मी काय करावे?').",
-        "disclaimer": "हा AI फक्त माहिती आणि प्राथमिक सल्ल्यासाठी आहे. कोणत्याही गंभीर आजारांसाठी कृपया प्रत्यक्ष डॉक्टरांचा सल्ला घ्या."
+        "disclaimer": "हा AI फक्त माहिती आणि प्राथमिक सल्ल्यासाठी आहे. कोणत्याही गंभीर आजारांसाठी कृपया प्रत्यक्ष डॉक्टरांचा सल्ला घ्या.",
+        "aaji_batwa": "👵 आजीचा बटवा (येथे क्लिक करा)",
+        "quick_cap": "सामान्य समस्या? त्वरित उपायासाठी खालील बटण दाबा:",
+        "custom_prob_title": "### ✍️ तुमची समस्या सांगा",
+        "custom_prob_cap": "इतर कोणतीही आरोग्य समस्या? खाली टाईप करा:",
+        "prob_placeholder": "उदा. सांधेदुखी, केस गळणे..."
     },
     "Hindi": {
         "title": "🌿 AyurConnect (Beta)",
@@ -38,7 +43,12 @@ translations = {
         "step2_tab2": "AI डॉक्टर से सवाल पूछें...",
         "clear_btn": "🗑️ चैट क्लियर करें",
         "chat_tip": "💡 **सुझाव:** AI को 'Hi' भेजने के बजाय, अपनी पूरी तकलीफ एक ही मैसेज में लिखें। (उदा: 'मुझे 2 दिन से एसिडिटी है, मैं क्या करूँ?').",
-        "disclaimer": "यह AI केवल जानकारी और प्राथमिक सलाह के लिए है। किसी भी गंभीर बीमारी के लिए कृपया असली डॉक्टर से सलाह लें।"
+        "disclaimer": "यह AI केवल जानकारी और प्राथमिक सलाह के लिए है। किसी भी गंभीर बीमारी के लिए कृपया असली डॉक्टर से सलाह लें।",
+        "aaji_batwa": "👵 दादी माँ के नुस्खे (यहाँ क्लिक करें)",
+        "quick_cap": "आम समस्या? तुरंत उपाय के लिए बटन दबाएं:",
+        "custom_prob_title": "### ✍️ अपनी तकलीफ बताएं",
+        "custom_prob_cap": "कोई और स्वास्थ्य समस्या? नीचे टाइप करें:",
+        "prob_placeholder": "उदा. घुटनों का दर्द, बाल झड़ना..."
     },
     "English": {
         "title": "🌿 AyurConnect (Beta)",
@@ -56,7 +66,12 @@ translations = {
         "step2_tab2": "Ask the AI Doctor...",
         "clear_btn": "🗑️ Clear Chat",
         "chat_tip": "💡 **Pro Tip:** Instead of sending 'Hi', type your complete problem at once. (e.g., 'I have had acidity for 2 days, what should I do?').",
-        "disclaimer": "This AI is for informational purposes and primary advice only. For any serious illness, please consult a real doctor."
+        "disclaimer": "This AI is for informational purposes and primary advice only. For any serious illness, please consult a real doctor.",
+        "aaji_batwa": "👵 Grandma's Remedies (Click Here)",
+        "quick_cap": "Common problems? Click a button:",
+        "custom_prob_title": "### ✍️ Describe Your Problem",
+        "custom_prob_cap": "Other health problem? Type below:",
+        "prob_placeholder": "e.g., Joint pain, Hair fall..."
     }
 }
 
@@ -81,7 +96,7 @@ with st.sidebar:
     st.markdown("---")
     app_mode = st.radio("📱 Menu:", [t["menu_home"], t["menu_chat"]])
     st.markdown("---")
-    st.caption("AyurConnect v1.7 | Perfected Chat UI")
+    st.caption("AyurConnect v1.8 | Full Translation Fixed")
 
 # Global Prakriti Logic
 prakriti = "Vata (वात)" # Default
@@ -91,7 +106,6 @@ prakriti = "Vata (वात)" # Default
 # ==========================================
 if app_mode == t["menu_home"]:
     
-    # Header sirf Home Page par dikhega
     st.title(t["title"])
     st.write(t["subtitle"])
     st.markdown("---")
@@ -119,8 +133,9 @@ if app_mode == t["menu_home"]:
     problem_input = ""
     
     with left_col:
-        with st.expander("👵 आजीचा बटवा (Quick Remedies - येथे क्लिक करा)"):
-            st.caption("Common problems? Click a button:")
+        # UI Elements completely linked to dictionary translations
+        with st.expander(t["aaji_batwa"]):
+            st.caption(t["quick_cap"])
             q_col1, q_col2 = st.columns(2)
             with q_col1:
                 if st.button("🔥 Acidity / पित्त", use_container_width=True): quick_problem = "Hyper Acidity and Pitta"
@@ -133,9 +148,10 @@ if app_mode == t["menu_home"]:
 
     with right_col:
         with st.container(border=True):
-            st.markdown("### ✍️ तुमची समस्या सांगा")
-            st.caption("Other health problem? Type below:")
-            problem_input = st.text_input(t["step2_tab1"], label_visibility="collapsed", placeholder="उदा. सांधेदुखी, केस गळणे...")
+            # UI Elements completely linked to dictionary translations
+            st.markdown(t["custom_prob_title"])
+            st.caption(t["custom_prob_cap"])
+            problem_input = st.text_input(t["step2_tab1"], label_visibility="collapsed", placeholder=t["prob_placeholder"])
             st.markdown("<br>", unsafe_allow_html=True) 
             submit_btn = st.button(t["btn_text"], type="primary", use_container_width=True)
 
@@ -162,21 +178,16 @@ if app_mode == t["menu_home"]:
                 else:
                     st.error(f"Error aagaya: {e}")
 
-    # Highlighted Disclaimer for Home Page
     st.markdown("<br>", unsafe_allow_html=True)
     st.warning(f"**Disclaimer:** {t['disclaimer']}", icon="⚠️")
 
 # ==========================================
-# PAGE 2: AI DOCTOR CHAT (PERFECTED ORDER)
+# PAGE 2: AI DOCTOR CHAT
 # ==========================================
 elif app_mode == t["menu_chat"]:
-    # 1. Title
     st.title(t["menu_chat"])
-    # 2. Subtitle
     st.write(t["subtitle"])
-    # 3. Tip
     st.info(t["chat_tip"])
-    # 4. Disclaimer
     st.warning(f"**Disclaimer:** {t['disclaimer']}", icon="⚠️")
     
     if "messages" not in st.session_state:
@@ -186,7 +197,6 @@ elif app_mode == t["menu_chat"]:
             st.session_state.chat_session = model.start_chat(history=[])
         except: pass
             
-    # 5. Clear Chat Button
     if st.button(t["clear_btn"]):
         st.session_state.messages = []
         try: st.session_state.chat_session = model.start_chat(history=[])
@@ -195,12 +205,10 @@ elif app_mode == t["menu_chat"]:
 
     st.markdown("---")
 
-    # 6. Chat History Area
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
             
-    # 7. Chat Input Patti (Sabse niche naturally rahegi)
     if user_input := st.chat_input(t["step2_tab2"]):
         st.session_state.messages.append({"role": "user", "content": user_input})
         with st.chat_message("user"):
