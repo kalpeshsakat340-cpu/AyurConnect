@@ -25,7 +25,13 @@ translations = {
         "quick_cap": "सामान्य समस्या? त्वरित उपायासाठी खालील बटण दाबा:",
         "custom_prob_title": "### ✍️ तुमची समस्या सांगा",
         "custom_prob_cap": "इतर कोणतीही आरोग्य समस्या? खाली टाईप करा:",
-        "prob_placeholder": "उदा. सांधेदुखी, केस गळणे..."
+        "prob_placeholder": "उदा. सांधेदुखी, केस गळणे...",
+        "btn_acidity": "🔥 ऍसिडिटी / पित्त",
+        "btn_wt_loss": "📉 वजन कमी (Weight Loss)",
+        "btn_cold": "🤧 सर्दी-खोकला (Cold)",
+        "btn_headache": "🤯 डोकेदुखी (Headache)",
+        "btn_wt_gain": "📈 वजन वाढ (Weight Gain)",
+        "btn_fever": "🤒 ताप (Fever)"
     },
     "Hindi": {
         "title": "🌿 AyurConnect (Beta)",
@@ -48,7 +54,13 @@ translations = {
         "quick_cap": "आम समस्या? तुरंत उपाय के लिए बटन दबाएं:",
         "custom_prob_title": "### ✍️ अपनी तकलीफ बताएं",
         "custom_prob_cap": "कोई और स्वास्थ्य समस्या? नीचे टाइप करें:",
-        "prob_placeholder": "उदा. घुटनों का दर्द, बाल झड़ना..."
+        "prob_placeholder": "उदा. घुटनों का दर्द, बाल झड़ना...",
+        "btn_acidity": "🔥 एसिडिटी / पित्त",
+        "btn_wt_loss": "📉 वजन कम करना (Weight Loss)",
+        "btn_cold": "🤧 सर्दी-खांसी (Cold & Cough)",
+        "btn_headache": "🤯 सिरदर्द (Headache)",
+        "btn_wt_gain": "📈 वजन बढ़ाना (Weight Gain)",
+        "btn_fever": "🤒 बुखार (Fever)"
     },
     "English": {
         "title": "🌿 AyurConnect (Beta)",
@@ -71,7 +83,13 @@ translations = {
         "quick_cap": "Common problems? Click a button:",
         "custom_prob_title": "### ✍️ Describe Your Problem",
         "custom_prob_cap": "Other health problem? Type below:",
-        "prob_placeholder": "e.g., Joint pain, Hair fall..."
+        "prob_placeholder": "e.g., Joint pain, Hair fall...",
+        "btn_acidity": "🔥 Acidity / Pitta",
+        "btn_wt_loss": "📉 Weight Loss",
+        "btn_cold": "🤧 Cold & Cough",
+        "btn_headache": "🤯 Headache & Stress",
+        "btn_wt_gain": "📈 Weight Gain",
+        "btn_fever": "🤒 Fever"
     }
 }
 
@@ -96,7 +114,12 @@ with st.sidebar:
     st.markdown("---")
     app_mode = st.radio("📱 Menu:", [t["menu_home"], t["menu_chat"]])
     st.markdown("---")
-    st.caption("AyurConnect v1.8 | Full Translation Fixed")
+    st.caption("AyurConnect v2.0")
+    
+    # YEH RAHI TERI SECRET ADMIN TRICK 👇
+    # Agar URL mein ?admin=kalpesh hoga, tabhi yeh line dikhegi!
+    if st.query_params.get("admin") == "kalpesh":
+        st.caption(f"🔌 Active Server (Admin View): {st.session_state.key_index + 1}")
 
 # Global Prakriti Logic
 prakriti = "Vata (वात)" # Default
@@ -133,22 +156,20 @@ if app_mode == t["menu_home"]:
     problem_input = ""
     
     with left_col:
-        # UI Elements completely linked to dictionary translations
         with st.expander(t["aaji_batwa"]):
             st.caption(t["quick_cap"])
             q_col1, q_col2 = st.columns(2)
             with q_col1:
-                if st.button("🔥 Acidity / पित्त", use_container_width=True): quick_problem = "Hyper Acidity and Pitta"
-                if st.button("📉 वजन कमी (Weight Loss)", use_container_width=True): quick_problem = "Weight Loss and reducing belly fat safely"
-                if st.button("🤧 सर्दी-खोकला (Cold & Cough)", use_container_width=True): quick_problem = "Cold, Cough and Sore Throat"
+                if st.button(t["btn_acidity"], use_container_width=True): quick_problem = "Hyper Acidity and Pitta"
+                if st.button(t["btn_wt_loss"], use_container_width=True): quick_problem = "Weight Loss and reducing belly fat safely"
+                if st.button(t["btn_cold"], use_container_width=True): quick_problem = "Cold, Cough and Sore Throat"
             with q_col2:
-                if st.button("🤯 डोकेदुखी (Headache)", use_container_width=True): quick_problem = "Headache and Stress"
-                if st.button("📈 वजन वाढ (Weight Gain)", use_container_width=True): quick_problem = "Healthy Weight Gain and Weakness"
-                if st.button("🤒 ताप (Fever)", use_container_width=True): quick_problem = "Mild Fever and Body ache"
+                if st.button(t["btn_headache"], use_container_width=True): quick_problem = "Headache and Stress"
+                if st.button(t["btn_wt_gain"], use_container_width=True): quick_problem = "Healthy Weight Gain and Weakness"
+                if st.button(t["btn_fever"], use_container_width=True): quick_problem = "Mild Fever and Body ache"
 
     with right_col:
         with st.container(border=True):
-            # UI Elements completely linked to dictionary translations
             st.markdown(t["custom_prob_title"])
             st.caption(t["custom_prob_cap"])
             problem_input = st.text_input(t["step2_tab1"], label_visibility="collapsed", placeholder=t["prob_placeholder"])
